@@ -1,0 +1,41 @@
+name: mosquito_analysis
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  # Core Python
+  - python=3.8
+  
+  # Numerical & Scientific
+  - numpy=1.23.5
+  - scipy=1.10.1
+  - pandas=2.0.3
+  - scikit-learn=1.3.2
+  
+  # Visualization & Plotting
+  - matplotlib=3.7.3
+  - seaborn=0.13.2
+  - pillow=9.4.0
+  
+  # Audio Processing
+  - librosa=0.9.1
+  - libsndfile=1.2.2
+  - libflac=1.4.3
+  - libogg=1.3.5
+  - libvorbis=1.3.7
+  
+  # GUI & System
+  - tqdm=4.67.1
+  
+  # Conda utilities
+  - pip
+  
+  # Pip-only packages (CRITICAL versions for SMR→WAV conversion)
+  - pip:
+    - neo==0.13.3
+    - sonpy==1.8.5
+    - soundfile==0.12.1
+    - audioread==3.0.1
+    - resampy==0.4.3
+    - pooch==1.8.2
+    - numba==0.58.1

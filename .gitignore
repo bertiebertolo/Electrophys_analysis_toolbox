@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data folders (user creates these)
+Mech_data_smr/
+Wav_data_mech/
+frequency_range_analysis/
+
+# Outputs
+*.png
+*.jpg
+*.csv
+
+# OS
+.DS_Store
