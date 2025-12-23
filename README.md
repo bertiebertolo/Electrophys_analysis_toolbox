@@ -3,7 +3,7 @@
 Comprehensive toolkit for extracting frequency tuning features from mosquito mechanoreceptor electrophysiology recordings.
 
 ## Requirements
-- **Windows or Linux** (x86_64 architecture)
+- **Windows or Linux** 
 - Python 3.8+
 - Conda or Miniconda
 
