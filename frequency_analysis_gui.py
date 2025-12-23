@@ -448,7 +448,7 @@ class FrequencyAnalysisGUI:
         self.features_cache = {}  # {filename: features_dict}
 
         # Analysis parameters
-        self.input_dir = tk.StringVar(value='Wav_data_mech')
+        self.input_dir = tk.StringVar(value='Wav_data')
         self.output_dir = tk.StringVar(value='frequency_range_analysis')
         self.sampling_rate = tk.IntVar(value=100000)
         self.min_freq = tk.DoubleVar(value=200)
@@ -600,25 +600,9 @@ class FrequencyAnalysisGUI:
         row += 1
 
         # Input type selection variable (store as instance variable for batch dialog)
-        self.input_type_var = tk.StringVar(value="mech")
-        
-        def update_input_dir():
-            """Update input directory and sampling rate based on selected type"""
-            input_type = self.input_type_var.get()
-            self.input_dir.set(f"Wav_data_{input_type}")
-            # Auto-adjust sampling rate
-            if input_type == "mech":
-                self.sampling_rate.set(100000)
-            else:
-                self.sampling_rate.set(20000)
-            # Scan files when input type changes
-            self.scan_files()
-        
         dir_frame = ttk.Frame(control_frame)
         dir_frame.grid(row=row, column=0, sticky=(tk.W, tk.E), pady=(0, 10))
-        ttk.Entry(dir_frame, textvariable=self.input_dir, width=20).pack(side=tk.LEFT, fill=tk.X, expand=True)
-        ttk.Radiobutton(dir_frame, text="Mech", variable=self.input_type_var, value="mech", command=update_input_dir).pack(side=tk.LEFT, padx=(5, 0))
-        ttk.Radiobutton(dir_frame, text="Nerve", variable=self.input_type_var, value="nerve", command=update_input_dir).pack(side=tk.LEFT)
+        ttk.Entry(dir_frame, textvariable=self.input_dir, width=30).pack(side=tk.LEFT, fill=tk.X, expand=True)
         ttk.Button(dir_frame, text="Browse", command=self.browse_input_dir, width=8).pack(side=tk.LEFT, padx=(5, 0))
         row += 1
 
@@ -1004,7 +988,7 @@ class FrequencyAnalysisGUI:
 
         in_var = tk.StringVar(value="Mech_data_smr")
         in_type_var = tk.StringVar(value="mech")
-        out_var = tk.StringVar(value="Wav_data_mech")
+        out_var = tk.StringVar(value="Wav_data")
         out_type_var = tk.StringVar(value="mech")
         sampling_rate_var = tk.IntVar(value=self.sampling_rate.get())
         use_target_sr_var = tk.BooleanVar(value=False)
