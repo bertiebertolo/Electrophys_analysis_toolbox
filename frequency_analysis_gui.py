@@ -461,11 +461,6 @@ class FrequencyAnalysisGUI:
         self.baseline_freq_max = tk.DoubleVar(value=1000)
 
         # Data storage
-        self.current_data = None
-        self.current_freqs = None
-        self.current_psd = None
-        self.current_features = None
-        self.current_filepath = None
         self.wav_files = []
         self.results_df = None
 
@@ -868,26 +863,14 @@ class FrequencyAnalysisGUI:
         """Show dialog for selecting source and destination and options for transfer"""
         dialog = tk.Toplevel(self.root)
         dialog.title("Transfer .smr Files")
-        dialog.geometry("520x220")
+        dialog.geometry("480x180")
         dialog.transient(self.root)
         dialog.grab_set()
 
-        src_var = tk.StringVar(value="Mech_data")
-        src_type_var = tk.StringVar(value="mech")
-        dst_var = tk.StringVar(value="Mech_data_smr")
-        dst_type_var = tk.StringVar(value="mech")
+        src_var = tk.StringVar(value="")
+        dst_var = tk.StringVar(value="")
         flatten_var = tk.BooleanVar(value=False)
         overwrite_var = tk.BooleanVar(value=False)
-
-        def update_src_dir():
-            """Update source directory based on selected type"""
-            src_type = src_type_var.get()
-            src_var.set(f"{src_type.capitalize()}_data")
-
-        def update_dst_dir():
-            """Update destination directory based on selected type"""
-            dst_type = dst_type_var.get()
-            dst_var.set(f"{dst_type.capitalize()}_data_smr")
 
         def choose_src():
             d = filedialog.askdirectory(title="Select Source Directory (search recursively)", initialdir=self.cwd)
@@ -902,31 +885,27 @@ class FrequencyAnalysisGUI:
         frame = ttk.Frame(dialog, padding=12)
         frame.pack(fill=tk.BOTH, expand=True)
 
-        ttk.Label(frame, text="Source Directory:", font=('', 9, 'bold')).grid(row=0, column=0, columnspan=2, sticky=tk.W)
+        ttk.Label(frame, text="Source Directory:", font=('', 9, 'bold')).grid(row=0, column=0, sticky=tk.W, pady=(0, 5))
         src_frame = ttk.Frame(frame)
-        src_frame.grid(row=1, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=(2, 6))
+        src_frame.grid(row=1, column=0, sticky=(tk.W, tk.E), pady=(0, 10))
         src_frame.columnconfigure(0, weight=1)
-        ttk.Entry(src_frame, textvariable=src_var, width=35).grid(row=0, column=0, sticky=(tk.W, tk.E))
-        ttk.Radiobutton(src_frame, text="Mech", variable=src_type_var, value="mech", command=update_src_dir).grid(row=0, column=1, padx=3)
-        ttk.Radiobutton(src_frame, text="Nerve", variable=src_type_var, value="nerve", command=update_src_dir).grid(row=0, column=2, padx=3)
-        ttk.Button(src_frame, text="Browse", command=choose_src).grid(row=0, column=3, padx=(5, 0))
+        ttk.Entry(src_frame, textvariable=src_var, width=40).grid(row=0, column=0, sticky=(tk.W, tk.E))
+        ttk.Button(src_frame, text="Browse", command=choose_src).grid(row=0, column=1, padx=(5, 0))
 
-        ttk.Label(frame, text="Destination Directory:", font=('', 9, 'bold')).grid(row=2, column=0, columnspan=2, sticky=tk.W)
+        ttk.Label(frame, text="Destination Directory:", font=('', 9, 'bold')).grid(row=2, column=0, sticky=tk.W, pady=(0, 5))
         dst_frame = ttk.Frame(frame)
-        dst_frame.grid(row=3, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=(2, 6))
+        dst_frame.grid(row=3, column=0, sticky=(tk.W, tk.E), pady=(0, 10))
         dst_frame.columnconfigure(0, weight=1)
-        ttk.Entry(dst_frame, textvariable=dst_var, width=35).grid(row=0, column=0, sticky=(tk.W, tk.E))
-        ttk.Radiobutton(dst_frame, text="Mech", variable=dst_type_var, value="mech", command=update_dst_dir).grid(row=0, column=1, padx=3)
-        ttk.Radiobutton(dst_frame, text="Nerve", variable=dst_type_var, value="nerve", command=update_dst_dir).grid(row=0, column=2, padx=3)
-        ttk.Button(dst_frame, text="Browse", command=choose_dst).grid(row=0, column=3, padx=(5, 0))
+        ttk.Entry(dst_frame, textvariable=dst_var, width=40).grid(row=0, column=0, sticky=(tk.W, tk.E))
+        ttk.Button(dst_frame, text="Browse", command=choose_dst).grid(row=0, column=1, padx=(5, 0))
 
         opt_frame = ttk.Frame(frame)
-        opt_frame.grid(row=4, column=0, columnspan=2, sticky=tk.W, pady=(6, 6))
+        opt_frame.grid(row=4, column=0, sticky=tk.W, pady=(6, 6))
         ttk.Checkbutton(opt_frame, text="Flatten (copy all into destination root)", variable=flatten_var).pack(anchor=tk.W)
         ttk.Checkbutton(opt_frame, text="Overwrite existing files", variable=overwrite_var).pack(anchor=tk.W)
 
         btn_frame = ttk.Frame(frame)
-        btn_frame.grid(row=5, column=0, columnspan=2, pady=(8, 0))
+        btn_frame.grid(row=5, column=0, pady=(8, 0))
         def on_start():
             src = src_var.get().strip()
             dst = dst_var.get().strip()
@@ -986,10 +965,8 @@ class FrequencyAnalysisGUI:
         dialog.transient(self.root)
         dialog.grab_set()
 
-        in_var = tk.StringVar(value="Mech_data_smr")
-        in_type_var = tk.StringVar(value="mech")
+        in_var = tk.StringVar(value="")
         out_var = tk.StringVar(value="Wav_data")
-        out_type_var = tk.StringVar(value="mech")
         sampling_rate_var = tk.IntVar(value=self.sampling_rate.get())
         use_target_sr_var = tk.BooleanVar(value=False)
         info_var = tk.StringVar(value="")
@@ -1003,11 +980,6 @@ class FrequencyAnalysisGUI:
         
         # Store scan results
         scan_results = {'segments': [], 'channels': [], 'files_scanned': 0}
-
-        def update_input_dir():
-            """Update input directory based on selected type"""
-            in_type = in_type_var.get()
-            in_var.set(f"{in_type.capitalize()}_data_smr")
 
         def choose_input():
             d = filedialog.askdirectory(title="Input directory with .smr files", initialdir=self.cwd)
@@ -1089,40 +1061,29 @@ class FrequencyAnalysisGUI:
             d = filedialog.askdirectory(title="Output directory for WAV files", initialdir=self.cwd)
             if d:
                 out_var.set(d)
-                
-        def update_output_dir():
-            """Update output directory based on selected type"""
-            out_type = out_type_var.get()
-            out_var.set(f"Wav_data_{out_type}")
 
         frame = ttk.Frame(dialog, padding=12)
         frame.pack(fill=tk.BOTH, expand=True)
 
         # I/O
-        ttk.Label(frame, text="Input (.smr) Directory:", font=('', 9, 'bold')).grid(row=0, column=0, columnspan=2, sticky=tk.W)
+        ttk.Label(frame, text="Input (.smr) Directory:", font=('', 9, 'bold')).grid(row=0, column=0, sticky=tk.W, pady=(0, 5))
         
         input_row_frame = ttk.Frame(frame)
-        input_row_frame.grid(row=1, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=(2, 6))
+        input_row_frame.grid(row=1, column=0, sticky=(tk.W, tk.E), pady=(0, 10))
         input_row_frame.columnconfigure(0, weight=1)
         
-        ttk.Entry(input_row_frame, textvariable=in_var, width=28).grid(row=0, column=0, sticky=(tk.W, tk.E))
-        ttk.Radiobutton(input_row_frame, text="Mech", variable=in_type_var, value="mech", command=update_input_dir).grid(row=0, column=1, padx=(8, 2))
-        ttk.Radiobutton(input_row_frame, text="Nerve", variable=in_type_var, value="nerve", command=update_input_dir).grid(row=0, column=2, padx=2)
-        ttk.Button(input_row_frame, text="Browse", command=choose_input).grid(row=0, column=3, padx=(8, 2))
-        ttk.Button(input_row_frame, text="Scan Files", command=scan_directory, style='Accent.TButton').grid(row=0, column=4, padx=2)
+        ttk.Entry(input_row_frame, textvariable=in_var, width=40).grid(row=0, column=0, sticky=(tk.W, tk.E))
+        ttk.Button(input_row_frame, text="Browse", command=choose_input).grid(row=0, column=1, padx=(5, 0))
+        ttk.Button(input_row_frame, text="Scan Files", command=scan_directory, style='Accent.TButton').grid(row=0, column=2, padx=(2, 0))
 
-        ttk.Label(frame, text="Output (WAV) Directory:", font=('', 9, 'bold')).grid(row=2, column=0, columnspan=2, sticky=tk.W)
+        ttk.Label(frame, text="Output (WAV) Directory:", font=('', 9, 'bold')).grid(row=2, column=0, sticky=tk.W, pady=(0, 5))
         
         output_row_frame = ttk.Frame(frame)
-        output_row_frame.grid(row=3, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=(2, 6))
+        output_row_frame.grid(row=3, column=0, sticky=(tk.W, tk.E), pady=(0, 10))
         output_row_frame.columnconfigure(0, weight=1)
         
-        ttk.Entry(output_row_frame, textvariable=out_var, width=28).grid(row=0, column=0, sticky=(tk.W, tk.E))
-        ttk.Radiobutton(output_row_frame, text="Mech", variable=out_type_var, value="mech", 
-                       command=update_output_dir).grid(row=0, column=1, padx=(8, 2))
-        ttk.Radiobutton(output_row_frame, text="Nerve", variable=out_type_var, value="nerve", 
-                       command=update_output_dir).grid(row=0, column=2, padx=2)
-        ttk.Button(output_row_frame, text="Browse", command=choose_output).grid(row=0, column=3, padx=(8, 0))
+        ttk.Entry(output_row_frame, textvariable=out_var, width=40).grid(row=0, column=0, sticky=(tk.W, tk.E))
+        ttk.Button(output_row_frame, text="Browse", command=choose_output).grid(row=0, column=1, padx=(5, 0))
 
         # File info display
         info_label = ttk.Label(frame, textvariable=info_var, foreground='blue', font=('', 8))
@@ -2246,12 +2207,6 @@ class FrequencyAnalysisGUI:
                 'percentile_threshold': self.percentile_threshold.get()
             }
         }
-
-        self.current_data = data
-        self.current_freqs = freqs
-        self.current_psd = psd
-        self.current_features = features
-        self.current_filepath = filepath
 
         # Infer recording type from path for single analysis
         rec_type = 'mechanical' if 'Wav_data_mech' in filepath else ('electrical' if 'Wav_data_nerve' in filepath else 'unknown')
