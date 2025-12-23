@@ -1,6 +1,7 @@
 # Mosquito Frequency Analysis Toolkit
 
 Comprehensive toolkit for extracting frequency tuning features from mosquito mechanoreceptor electrophysiology recordings.
+Includes a converter for Spike2 .smr data to be converted to .wav files
 
 ## Requirements
 - **Windows or Linux** 
