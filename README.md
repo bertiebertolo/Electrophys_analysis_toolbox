@@ -1,6 +1,6 @@
-# Mosquito Frequency Analysis Toolkit
+# Electrophysiology Frequency Analysis Toolkit
 
-Comprehensive toolkit for extracting frequency tuning features from mosquito mechanoreceptor electrophysiology recordings.
+Comprehensive toolkit for extracting frequency tuning features from electrophysiology recordings.
 Includes a converter for Spike2 .smr data to be converted to .wav files
 
 ## Requirements
@@ -15,11 +15,11 @@ Includes a converter for Spike2 .smr data to be converted to .wav files
 ### 1. Install
 ```bash
 # Clone or download this repository
-cd mosquito_electrophys_toolbox
+cd electrophys_analysis_toolbox
 
 # Create conda environment
 conda env create -f environment.yml
-conda activate mosquito_analysis
+conda activate electrophys_analysis
 ```
 
 ### 2. Launch GUI
@@ -33,7 +33,7 @@ The GUI provides:
 - Frequency tuning visualization
 - Batch processing
 - CSV export
-- Species comparison plots
+- Category comparison plots
 
 ### 3. Or Use Jupyter Notebooks
 
@@ -54,29 +54,29 @@ jupyter lab
 Create these folders in your working directory:
 
 ```
-Wav_data_mech/{species}/          # Filtered WAV files (100 kHz, 0-1000 Hz)
-Mech_data_smr/{species}/           # Optional: raw Spike2 .smr files
+Wav_data/{category}/               # Filtered WAV files (100 kHz, 0-1000 Hz)
+Data_smr/{category}/               # Optional: raw Spike2 .smr files
 frequency_range_analysis/          # Auto-created: outputs (CSV, plots)
 ```
 
-**Species folder examples:** `Culex`, `aedes aegypti`
+**Category folder examples:** `sample_1`, `sample_2`, `condition_a`
 
 ## Workflow Options
 
 ### Option 1: GUI (No Coding)
-1. Place filtered WAV files in `Wav_data_mech/{species}/`
+1. Place filtered WAV files in `Wav_data/{category}/`
 2. Launch GUI: `python run_gui.py`
 3. Select files → Adjust parameters → Analyze
 4. Export results to CSV
 
 ### Option 2: Jupyter Analysis
-1. Place filtered WAV files in `Wav_data_mech/{species}/`
+1. Place filtered WAV files in `Wav_data/{category}/`
 2. Open `Frequency_Range_Analysis.ipynb`
 3. Run all cells
 4. Results saved to `frequency_range_analysis/`
 
 ### Option 3: Full Pipeline (from .smr)
-1. Place raw .smr files in `Mech_data_smr/{species}/`
+1. Place raw .smr files in `Data_smr/{category}/`
 2. Convert using GUI (**SMR Tools → Convert .smr to WAV**)
    - OR run `smr_to_wav_converter.ipynb`
 3. Analyze converted WAVs (GUI or notebook)
@@ -108,7 +108,7 @@ frequency_range_analysis/          # Auto-created: outputs (CSV, plots)
 - `tuning_features_all.csv` - All extracted features per file
 - `tuning_summary_statistics.csv` - Grouped statistics
 - Individual tuning plots (frequency + waveform views)
-- Species comparison plots (6-panel)
+- Category comparison plots (6-panel)
 
 ## File Descriptions
 
